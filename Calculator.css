@@ -1,0 +1,436 @@
+/* Universal reset and base font settings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Makes padding and border part of the element's total width and height */
+    font-family: 'Roboto', sans-serif; /* Sets a nice, readable default font */
+}
+
+/* CSS Variables for easy theme management and consistency */
+:root {
+    --primary-color: #D32F2F;      /* A standard red for primary actions/highlights */
+    --primary-hover: #B71C1C;      /* Darker red for hover states on primary elements */
+    --background: #f8f9fa;         /* Light gray background for the body */
+    --card-bg: #ffffff;            /* White background for card-like elements */
+    --text-primary: #333;          /* Dark gray for main text */
+    --text-secondary: #555;        /* Lighter gray for secondary text */
+    --border-color: #ddd;          /* Light border color */
+    --border-radius: 8px;          /* Standardized border radius for rounded corners */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow for depth */
+    --transition: all 0.3s ease-in-out; /* Default transition for smooth animations */
+    --input-padding-y: 10px;       /* Vertical padding for inputs */
+    --input-padding-x: 12px;       /* Horizontal padding for inputs */
+}
+
+/* Body styling: sets up the overall page layout and appearance */
+body {
+    background-color: var(--background);
+    color: var(--text-primary);
+    line-height: 1.6; /* Improves readability */
+    min-height: 100vh; /* Ensures the body takes at least the full viewport height */
+    display: flex;
+    flex-direction: column; /* Stacks children vertically */
+    align-items: center; /* Centers content horizontally */
+    padding: 20px; /* Adds some space around the content */
+}
+
+/* Container to manage the width of the content and center it */
+.container {
+    max-width: 960px; /* Limits the maximum width of the content */
+    width: 100%;      /* Ensures it's responsive on smaller screens */
+    margin: 0 auto;   /* Centers the container */
+    padding: 0;       /* No extra padding on the container itself */
+}
+
+/* Header styling: for the main title and subtitle */
+header {
+    text-align: center; /* Centers the text within the header */
+    margin-bottom: 40px; /* Space below the header */
+    padding: 30px 25px; /* Inner spacing */
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+header h1 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 2.8em; /* Large font size for the main title */
+    font-weight: 700; /* Bold font weight */
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 1.2em; /* Slightly larger font for the subtitle */
+}
+
+/* Main section for the calculator */
+.calculator-section {
+    display: flex;
+    flex-direction: column; /* Stacks conversion type selector and the main conversion area */
+    gap: 30px; /* Space between child elements */
+    margin-bottom: 40px; /* Space below the calculator section */
+}
+
+/* Selector for choosing the type of conversion (length, mass, etc.) */
+.conversion-type-selector {
+    display: flex;
+    justify-content: center; /* Centers the buttons */
+    gap: 10px; /* Space between buttons */
+    margin-bottom: 10px; /* Space below the selector */
+    padding: 0 10px;
+    flex-wrap: wrap; /* Allows buttons to wrap to the next line on smaller screens */
+}
+
+/* Individual conversion type buttons */
+.type-button {
+    padding: 10px 18px;
+    background-color: #e0e0e0; /* Light gray background for inactive buttons */
+    color: var(--text-primary);
+    border: none;
+    border-radius: 20px; /* Pill-shaped buttons */
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: background-color var(--transition), color var(--transition), box-shadow 0.3s ease;
+    display: flex; /* To align icon and text */
+    align-items: center;
+    gap: 6px; /* Space between icon and text */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Styling for the active conversion type button */
+.type-button.active {
+    background-color: var(--primary-color);
+    color: white; /* White text on active button for contrast */
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.2); /* A subtle shadow related to the primary color */
+}
+
+/* Hover effect for type buttons that are not active */
+.type-button:hover:not(.active) {
+    background-color: #d5d5d5; /* Slightly darker gray on hover */
+}
+
+.type-button i {
+    color: inherit; /* Icon color matches the button text color */
+}
+
+/* The main card where actual conversion happens (input, output, etc.) */
+.conversion-type {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    opacity: 1; /* Start fully visible */
+    transform: translateY(0); /* Start at normal position */
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; /* Smooth transition for content changes */
+}
+
+/* Class to apply for fade-out animation when content is changing */
+.conversion-type.fading-out {
+    opacity: 0;
+    transform: translateY(10px); /* Slight upward movement during fade-out */
+}
+
+/* Title within the conversion card (e.g., "Length Conversion") */
+.conversion-type h2 {
+    color: var(--text-primary);
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 600;
+    position: relative; /* For the underline pseudo-element */
+    padding-bottom: 12px; /* Space for the underline */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icon and title text */
+}
+
+.conversion-type h2 i {
+    color: var(--primary-color); /* Icon color matches primary theme color */
+}
+
+/* Decorative underline for the conversion type title */
+.conversion-type h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+/* Form layout for inputs and selects */
+.conversion-form {
+    display: flex;
+    gap: 15px; /* Space between input groups and swap button */
+    align-items: center; /* Vertically aligns items */
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+}
+
+/* Grouping for input field and its corresponding unit select */
+.input-group {
+    display: flex;
+    gap: 10px; /* Space between input and select */
+    align-items: center;
+    flex-wrap: wrap; /* Allows input and select to stack if needed */
+    flex-grow: 1; /* Allows input groups to take available space */
+}
+
+.input-group input[type="number"] {
+    flex: 1 1 150px; /* Flexible width, base width 150px */
+    min-width: 0; /* Allows shrinking below flex-basis */
+    padding: var(--input-padding-y) var(--input-padding-x);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1.1em;
+    transition: border-color var(--transition);
+}
+
+.input-group select {
+    flex-grow: 1; /* Takes up available space */
+    flex-shrink: 0; /* Doesn't shrink as much as input */
+    flex-basis: 120px; /* Base width for select dropdown */
+    padding: var(--input-padding-y) 30px var(--input-padding-y) var(--input-padding-x); /* Padding, right padding makes space for arrow */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1.1em;
+    background-color: var(--card-bg);
+    cursor: pointer;
+    transition: border-color var(--transition);
+    appearance: none; /* Removes default browser styling for select arrow */
+    /* Custom select arrow using SVG */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Positions the custom arrow */
+    background-size: 0.8em; /* Size of the custom arrow */
+}
+
+/* Button to swap 'from' and 'to' units */
+.swap-button {
+    background-color: var(--background);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    padding: 12px; /* Equal padding for a square-ish look with icon */
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--transition), border-color var(--transition), color var(--transition), transform 0.1s ease;
+    width: 45px;  /* Fixed width */
+    height: 45px; /* Fixed height, makes it a square */
+    flex-shrink: 0; /* Prevents shrinking */
+    margin: 0; /* Removes default margins */
+}
+
+.swap-button:hover {
+    background-color: #f0f0f0; /* Slightly different background on hover */
+    border-color: #ccc; /* Darker border on hover */
+}
+
+.swap-button:active {
+    transform: scale(0.95); /* Slight shrink effect when clicked */
+}
+
+/* Focus styles for input and select elements for better accessibility */
+input[type="number"]:focus,
+select:focus {
+    outline: none; /* Removes default outline */
+    border-color: var(--primary-color); /* Primary color border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25); /* Primary color shadow glow on focus */
+}
+
+/* Area to display the final conversion result */
+.result {
+    margin-top: 25px; /* Space above the result area */
+    padding: 20px;
+    background-color: #e9ecef; /* Light grayish-blue background */
+    border-radius: var(--border-radius);
+    text-align: center;
+    font-size: 1.2em;
+    color: var(--text-primary);
+    border: 1px solid #dee2e6;
+    word-break: break-word; /* Prevents long results from breaking layout */
+}
+
+.result p {
+    margin: 0;
+    font-weight: 500; /* Slightly bolder text for the result */
+}
+
+/* NEW: Styling for the formula display area */
+.formula-display {
+    margin-top: 0; /* Will be controlled by .show class or if it's always after result */
+    padding: 15px;
+    background-color: #f8f9fa; /* A distinct light blue background */
+    border-radius: var(--border-radius);
+    font-size: 0.9em;
+    color: rgb(75, 75, 75); /* A darker blue for text, for readability */
+    border: 1px solid #e2e2e2; /* Border matching the background tone */
+    word-break: break-word;
+    white-space: pre-wrap; /* Respects newlines and spaces in the formula text */
+    opacity: 0; /* Hidden by default */
+    height: 0;  /* Collapsed by default */
+    overflow: hidden; /* Clips content when collapsed */
+    transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out, margin-top 0.5s ease-in-out, padding 0.5s ease-in-out; /* Smooth transition */
+}
+
+.formula-display.show {
+    opacity: 1; /* Visible */
+    height: auto; /* Adjust height to content */
+    margin-top: 20px; /* Space above when shown */
+    padding: 15px; /* Restore padding when shown */
+}
+
+.formula-display p {
+    margin: 5px 0;
+}
+
+.formula-display strong {
+    color: var(--primary-color); /* Highlight "Formula:" text */
+}
+
+
+/* Styling for the computation breakdown area (step-by-step solution) */
+.computation-breakdown {
+    margin-top: 0; /* Initially no margin, will be added by .show */
+    padding: 15px; /* Default padding, might be overridden by transition */
+    background-color: #f8f9fa; /* Very light gray, similar to body background */
+    border-radius: var(--border-radius);
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    border: 1px solid #e9ecef;
+    word-break: break-word;
+    white-space: pre-wrap; /* To show multi-line steps correctly */
+    opacity: 0; /* Hidden by default */
+    height: 0;  /* Collapsed by default */
+    overflow: hidden; /* Clips content when collapsed */
+    transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out, margin-top 0.5s ease-in-out; /* Smooth show/hide transition */
+}
+
+/* Class to show the computation breakdown */
+.computation-breakdown.show {
+    opacity: 1; /* Make it visible */
+    height: auto; /* Adjust height to content */
+    margin-top: 20px; /* Add space above when shown */
+}
+
+.computation-breakdown p {
+    margin: 5px 0; /* Spacing for lines within the breakdown */
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    color: var(--text-secondary);
+    font-size: 1em;
+    margin-top: 50px; /* Generous space above the footer */
+}
+
+/* Responsive adjustments for smaller screens (e.g., mobile phones) */
+@media (max-width: 600px) {
+    body {
+        padding: 15px; /* Reduce overall padding */
+    }
+
+    header {
+        margin-bottom: 30px;
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 2em; /* Smaller title */
+    }
+
+    header p {
+        font-size: 1em; /* Smaller subtitle */
+    }
+
+    .calculator-section {
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    /* Stack conversion type buttons vertically on small screens */
+    .conversion-type-selector {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .type-button {
+        width: 100%; /* Full width buttons */
+        justify-content: center; /* Center content within button */
+        font-size: 1em;
+        padding: 12px 0;
+    }
+
+    .conversion-type {
+        padding: 20px; /* Reduce padding inside conversion card */
+    }
+
+    .conversion-type h2 {
+        font-size: 1.5em;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+    }
+
+    .conversion-type h2::after {
+        width: 40px; /* Shorter underline */
+        height: 3px;
+    }
+
+    /* Stack form elements vertically */
+    .conversion-form {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .input-group {
+        flex-direction: column; /* Stack input and select */
+        gap: 10px;
+        width: 100%; /* Full width for input groups */
+    }
+
+    .input-group input[type="number"],
+    .input-group select {
+        width: 100%; /* Full width for input and select */
+        flex-basis: auto;
+        min-width: 0;
+        font-size: 1em;
+    }
+
+    .swap-button {
+        width: 40px;
+        height: 40px; /* Slightly smaller swap button */
+        margin: 5px 0;
+        align-self: center; /* Center swap button when form items are stacked */
+        font-size: 1em;
+    }
+
+    .result {
+        margin-top: 20px;
+        padding: 15px;
+        font-size: 1.1em;
+    }
+
+    .formula-display.show, /* Ensure responsive margins for new section too */
+    .computation-breakdown.show {
+        margin-top: 15px;
+    }
+
+    footer {
+        padding: 15px;
+        font-size: 0.9em;
+        margin-top: 30px;
+    }
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic HTML setup: character set and viewport for responsiveness -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the webpage, shown in the browser tab -->
+    <title>Unit Conversion</title>
+    <!-- Linking the main stylesheet for the calculator's appearance -->
+    <link rel="stylesheet" href="Calculator.css">
+    <!-- Importing Google Fonts (Roboto) for a clean, modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Importing Font Awesome for icons, making the UI more visual -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Main container for the entire calculator app -->
+    <div class="container">
+        <!-- Header section: Title and a brief description -->
+        <header>
+            <h1><i class="fas fa-calculator"></i> Unit Conversion</h1>
+            <p>Convert and calculate various physics measurements with precision</p>
+        </header>
+
+        <!-- Main content area where the calculator functionality resides -->
+        <main>
+            <div class="calculator-section">
+                <!-- Conversion Type Selection: Buttons to choose what to convert (length, mass, etc.) -->
+                <div class="conversion-type-selector">
+                    <!-- Each button has a data-type attribute to identify the conversion and an icon -->
+                    <button class="type-button active" data-type="length"><i class="fas fa-ruler"></i> Length</button>
+                    <button class="type-button" data-type="mass"><i class="fas fa-weight-hanging"></i> Mass</button>
+                    <button class="type-button" data-type="time"><i class="fas fa-clock"></i> Time</button>
+                    <button class="type-button" data-type="volume"><i class="fas fa-cube"></i> Volume</button>
+                    <button class="type-button" data-type="speed"><i class="fas fa-tachometer-alt"></i> Speed</button>
+                    <button class="type-button" data-type="force"><i class="fas fa-atom"></i> Force</button>
+                    <button class="type-button" data-type="pressure"><i class="fas fa-compress"></i> Pressure</button>
+                    <button class="type-button" data-type="energy"><i class="fas fa-bolt"></i> Energy</button>
+                    <button class="type-button" data-type="power"><i class="fas fa-plug"></i> Power</button>
+                    <button class="type-button" data-type="temperature"><i class="fas fa-temperature-low"></i> Temperature</button>
+                </div>
+
+                <!-- Dynamic Conversion Area: This section changes based on the selected conversion type -->
+                <div class="conversion-type" id="dynamicConversion">
+                    <!-- Title for the current conversion type, updated by JavaScript -->
+                    <h2 id="conversionTitle"><i class="fas fa-ruler"></i> Length Conversion</h2>
+                    
+                    <!-- Form for inputting value and selecting units -->
+                    <div class="conversion-form">
+                        <!-- Input group for the value to convert and its unit -->
+                        <div class="input-group">
+                            <input type="number" id="inputValue" placeholder="Enter value">
+                            <select id="fromUnit"></select> <!-- 'From' unit dropdown, populated by JS -->
+                        </div>
+                        <!-- Swap button to quickly interchange 'from' and 'to' units -->
+                        <button class="swap-button" title="Swap Units"><i class="fas fa-arrow-right-arrow-left"></i></button>
+                        <!-- Input group for selecting the target unit -->
+                        <div class="input-group">
+                            <select id="toUnit"></select> <!-- 'To' unit dropdown, populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Area to display the conversion result -->
+                    <div class="result" id="conversionResult">
+                        <!-- Answer will appear here, updated by JS -->
+                        <p>Answer will appear here.</p>
+                    </div>
+
+                    <!-- NEW: Area to display the formula used for the conversion -->
+                    <div class="formula-display" id="formulaDisplay">
+                        <!-- Formula will be shown here, updated by JS -->
+                        <p>Formula used will appear here.</p>
+                    </div>
+
+                    <!-- Area to display the step-by-step computation breakdown -->
+                    <div class="computation-breakdown" id="computationBreakdown">
+                        <!-- Solution steps will appear here, updated by JS -->
+                        <p>Solution will appear here.</p>
+                    </div>
+                </div>
+                <!-- Note: Mass and Time specific sections were removed as it's now dynamic -->
+            </div>
+        </main>
+
+        <!-- Footer section: Credits or other information -->
+        <footer>
+            <p><i class="fas fa-code"></i> Unit Conversion - Group 3</p>
+        </footer>
+    </div>
+    <!-- Linking the JavaScript file that powers the calculator's logic -->
+    <script src="Calculator.js"></script>
+</body>
+</html>
