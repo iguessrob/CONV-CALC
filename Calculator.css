@@ -10,6 +10,8 @@
 :root {
     --primary-color: #D32F2F;      /* A standard red for primary actions/highlights */
     --primary-hover: #B71C1C;      /* Darker red for hover states on primary elements */
+    --secondary-action-color: #1976D2; /* A blue for secondary actions like export */
+    --secondary-action-hover: #1565C0; /* Darker blue for hover */
     --background: #f8f9fa;         /* Light gray background for the body */
     --card-bg: #ffffff;            /* White background for card-like elements */
     --text-primary: #333;          /* Dark gray for main text */
@@ -52,7 +54,7 @@ header {
     box-shadow: var(--shadow);
 }
 
-/* NEW: Styles for the container holding the H1 and the logo */
+/* Styles for the container holding the H1 and the logo */
 .header-content {
     display: flex; /* This allows us to arrange the title and logo in a row */
     align-items: center; /* This vertically aligns the title and logo nicely */
@@ -68,7 +70,7 @@ header h1 {
     margin-bottom: 0; /* We remove the bottom margin here, as .header-content handles spacing now */
 }
 
-/* NEW: Styles for your school logo */
+/* Styles for your school logo */
 .school-logo {
     max-height: 60px; /* Adjust this value to control the logo's height. It will scale proportionally. */
     width: auto; /* This ensures the logo maintains its aspect ratio */
@@ -78,9 +80,6 @@ header p {
     color: var(--text-secondary);
     font-size: 1.2em; /* Slightly larger font for the subtitle */
 }
-
-
-/* ... (rest of your CSS remains the same) ... */
 
 
 /* Calculator section styling */
@@ -283,47 +282,56 @@ select:focus {
 }
 
 /* Styling for the formula display area */
+/* Styling for the formula display area */
 .formula-display {
-    margin-top: 0; /* Will be controlled by .show class or if it's always after result */
-    padding: 15px;
-    background-color: #e6f7ff; /* A distinct light blue background */
+    margin-top: 0; /* Controlled by .show class */
+    background-color: var(--card-bg); /* White background, consistent with other cards */
+    border: 1px solid var(--border-color); /* Standard border */
+    border-left: 4px solid var(--primary-color); /* Accent left border with primary red */
+    color: var(--text-secondary); /* Using secondary text color for formula descriptions */
+    
     border-radius: var(--border-radius);
     font-size: 0.9em;
-    color: #0056b3; /* A darker blue for text, for readability */
-    border: 1px solid #b3e0ff; /* Border matching the background tone */
     word-break: break-word;
-    white-space: pre-wrap; /* Respects newlines and spaces in the formula text */
+    white-space: pre-wrap;
+    
     opacity: 0; /* Hidden by default */
     height: 0;  /* Collapsed by default */
     overflow: hidden; /* Clips content when collapsed */
-    transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out, margin-top 0.5s ease-in-out, padding 0.5s ease-in-out; /* Smooth transition */
+    
+    /* Adjusted padding: top/bottom 0 for collapse, right standard, left more for accent border */
+    padding: 0 15px 0 20px; 
+    transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out, margin-top 0.5s ease-in-out, padding 0.5s ease-in-out;
 }
 
 .formula-display.show {
     opacity: 1; /* Visible */
     height: auto; /* Adjust height to content */
     margin-top: 20px; /* Space above when shown */
-    padding: 15px; /* Restore padding when shown */
+    /* Restore top/bottom padding, keep right/left padding consistent with hidden state */
+    padding: 15px 15px 15px 20px; 
 }
 
 .formula-display p {
     margin: 5px 0;
+    line-height: 1.5; /* Slightly more line height for readability */
 }
 
+/* Ensure "Formula:" heading and other strong elements within are prominent */
 .formula-display strong {
-    color: var(--primary-color); /* Highlight "Formula:" text */
+    color: var(--primary-color); /* Primary red for "Formula:" */
+    font-weight: 600; /* A bit bolder */
 }
-
 
 /* Styling for the computation breakdown area (step-by-step solution) */
 .computation-breakdown {
     margin-top: 0; /* Initially no margin, will be added by .show */
     padding: 15px; /* Default padding, might be overridden by transition */
-    background-color: #f8f9fa; /* Very light gray, similar to body background */
+    background-color: #f0f3f5; /* Slightly different light gray */
     border-radius: var(--border-radius);
     font-size: 0.9em;
     color: var(--text-secondary);
-    border: 1px solid #e9ecef;
+    border: 1px solid #e0e5e9;
     word-break: break-word;
     white-space: pre-wrap; /* To show multi-line steps correctly */
     opacity: 0; /* Hidden by default */
@@ -342,6 +350,76 @@ select:focus {
 .computation-breakdown p {
     margin: 5px 0; /* Spacing for lines within the breakdown */
 }
+
+.computation-breakdown .indent {
+    margin-left: 25px;
+    font-style: italic;
+    color: #444;
+}
+
+/* Styling for the Chart Display Area */
+.chart-display {
+    margin-top: 25px;
+    padding: 20px;
+    background-color: var(--card-bg); /* Consistent card background */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    display: none; /* Hidden by default, shown by JS */
+}
+
+.chart-display h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.chart-display h3 i {
+    color: var(--primary-color);
+}
+
+.chart-container {
+    position: relative;
+    height: 300px; 
+    width: 100%;
+    background-color: #fdfdfd; /* Slightly off-white for chart background */
+    padding: 10px;
+    border-radius: var(--border-radius);
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+}
+
+/* Styling for Action Buttons like Export */
+.action-button {
+    padding: 12px 20px;
+    background-color: var(--secondary-action-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color var(--transition), box-shadow 0.2s ease;
+    display: none; /* Hidden by default, shown by JS */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 25px auto 0; /* Centered, with margin top */
+    min-width: 180px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.action-button:hover {
+    background-color: var(--secondary-action-hover);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.action-button i {
+    font-size: 1.1em;
+}
+
 
 /* Footer styling */
 footer {
@@ -452,9 +530,21 @@ footer {
         font-size: 1.1em;
     }
 
-    .formula-display.show, /* Ensure responsive margins for new section too */
-    .computation-breakdown.show {
+    .formula-display.show, 
+    .computation-breakdown.show,
+    .chart-display { /* Ensure responsive margins for new sections too */
         margin-top: 15px;
+        padding: 15px;
+    }
+    .chart-container {
+        height: 250px; /* Adjust chart height for smaller screens */
+    }
+
+    .action-button {
+        width: 90%;
+        margin-top: 20px;
+        padding: 10px 15px;
+        font-size: 0.95em;
     }
 
     footer {

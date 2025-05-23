@@ -12,13 +12,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- Importing Font Awesome for icons, making the UI more visual -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Importing Chart.js for graphical representation -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <!-- Main container for the entire calculator app -->
     <div class="container">
         <!-- Header section: Title and a brief description -->
         <header>
-            <!-- This new div will group your title and logo together -->
+            <!-- This new div will group title and logo together -->
             <div class="header-content">
                 <h1><i class="fas fa-calculator"></i> Unit Conversion</h1>
                 <img src="FAITH-Colleges-Logo.png" alt="School Logo" class="school-logo">
@@ -81,6 +83,20 @@
                         <!-- Solution steps will appear here, updated by JS -->
                         <p>Solution will appear here.</p>
                     </div>
+
+                    <!-- Graphical Representation Area -->
+                    <div class="chart-display" id="chartDisplay">
+                        <h3><i class="fas fa-chart-bar"></i> Visual Representation</h3>
+                        <div class="chart-container">
+                            <canvas id="conversionChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Export Button -->
+                    <button id="exportButton" class="action-button" title="Export Results">
+                        <i class="fas fa-download"></i> Export Results
+                    </button>
+
                 </div>
             </div>
         </main>
